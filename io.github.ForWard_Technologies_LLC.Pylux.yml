@@ -6,7 +6,6 @@ base: io.qt.qtwebengine.BaseApp
 base-version: '6.9'
 command: chiaki
 rename-icon: chiaking
-separate-locales: false
 finish-args:
   - --share=network
   - --share=ipc
