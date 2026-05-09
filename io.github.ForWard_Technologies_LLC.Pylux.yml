@@ -16,17 +16,19 @@ finish-args:
   - --allow=bluetooth
   - --socket=pulseaudio
   - --env=QTWEBENGINEPROCESS_PATH=/app/bin/QtWebEngineProcess
-  - --env=LD_LIBRARY_PATH=/app/lib:/app/lib64
+  - --env=LD_LIBRARY_PATH=/app/lib:/usr/lib/extensions/vulkan/gamescope/lib
   - --env=DBUS_FATAL_WARNINGS=0
   - --env=QML_DISABLE_DISK_CACHE=1
   - --env=SDL_AUDIODRIVER=pipewire
   - --talk-name=org.freedesktop.ScreenSaver
-  - --system-talk-name=org.freedesktop.login1
+  # TEMP: re-enabled in Phase 4 with a dedicated flatpak-builder-lint
+  # exception PR for login1 (graceful Inhibit + PrepareForSleep handling
+  # for streaming sessions on Steam Deck and desktop). Commented out only
+  # so CI lint passes during initial PR test builds.
+  # - --system-talk-name=org.freedesktop.login1
   - --filesystem=xdg-run/pipewire-0
   - --filesystem=xdg-run/gamescope-0
-  - --filesystem=host-os:ro
   - --filesystem=xdg-download
-  - --filesystem=xdg-documents
   - --filesystem=~/.steam/steam
 
 cleanup-commands:
@@ -35,14 +37,15 @@ cleanup-commands:
 build-options:
   arch:
     aarch64:
-      prepend-pkg-config-path: "/app/lib/pkgconfig:/app/lib64/pkgconfig:/app/lib/aarch64-linux-gnu/pkgconfig:/app/lib64/aarch64-linux-gnu/pkgconfig"
+      prepend-pkg-config-path: "/app/lib/pkgconfig:/app/lib/aarch64-linux-gnu/pkgconfig"
     x86_64:
-      prepend-pkg-config-path: "/app/lib/pkgconfig:/app/lib64/pkgconfig:/app/lib/x86_64-linux-gnu/pkgconfig:/app/lib64/x86_64-linux-gnu/pkgconfig"
+      prepend-pkg-config-path: "/app/lib/pkgconfig:/app/lib/x86_64-linux-gnu/pkgconfig"
 
 modules:
   - name: protobuf-compilers
     buildsystem: cmake-ninja
     config-opts:
+      - -DCMAKE_INSTALL_LIBDIR=lib
       - -Dprotobuf_BUILD_TESTS=OFF
       - -Dprotobuf_BUILD_SHARED_LIBS=OFF
       - -Dprotobuf_BUILD_PROTOBUF_BINARIES=ON
@@ -60,6 +63,7 @@ modules:
   - name: libplacebo
     buildsystem: meson
     config-opts:
+      - -Dlibdir=lib
       - -Dvulkan=enabled
       - -Dshaderc=enabled
     cleanup:
@@ -145,6 +149,7 @@ modules:
   - name: hidapi
     buildsystem: cmake-ninja
     config-opts:
+      - -DCMAKE_INSTALL_LIBDIR=lib
       - -DHIDAPI_WITH_LIBUSB=FALSE
     sources:
       - type: git
@@ -157,12 +162,7 @@ modules:
       - /include
 
   - name: speexDSP
-    buildsystem: simple
-    build-commands:
-      - ./autogen.sh
-      - ./configure --prefix=/app
-      - make
-      - make install
+    buildsystem: autotools
     sources:
       - type: git
         url: https://gitlab.xiph.org/xiph/speexdsp.git
@@ -171,6 +171,8 @@ modules:
 
   - name: json-c
     buildsystem: cmake-ninja
+    config-opts:
+      - -DCMAKE_INSTALL_LIBDIR=lib
     sources:
       - type: git
         url: https://github.com/json-c/json-c.git
@@ -179,6 +181,8 @@ modules:
 
   - name: miniupnpc
     buildsystem: cmake-ninja
+    config-opts:
+      - -DCMAKE_INSTALL_LIBDIR=lib
     subdir: miniupnpc
     sources:
       - type: git
@@ -219,10 +223,12 @@ modules:
   - name: pylux
     buildsystem: cmake-ninja
     builddir: true
+    config-opts:
+      - -DCMAKE_INSTALL_LIBDIR=lib
     sources:
       - type: git
         url: https://github.com/ForWard-Technologies-LLC/Pylux.git
-        commit: 6855bf2386686843bd27a59805deb1f27a537d0e
+        commit: 4390eb61e4d65e770e94164beb106d5f42c16a14
     post-install:
       - install -Dm755 ../scripts/psn-account-id.py /app/bin/psn-account-id
       - install -Dm755 ../scripts/vulkan-gamescope-layers/VkLayer_FROG_gamescope_wsi.x86_64.json
