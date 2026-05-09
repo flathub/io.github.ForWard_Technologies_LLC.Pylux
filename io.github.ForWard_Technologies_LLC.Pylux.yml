@@ -45,7 +45,6 @@ modules:
   - name: protobuf-compilers
     buildsystem: cmake-ninja
     config-opts:
-      - -DCMAKE_INSTALL_LIBDIR=lib
       - -Dprotobuf_BUILD_TESTS=OFF
       - -Dprotobuf_BUILD_SHARED_LIBS=OFF
       - -Dprotobuf_BUILD_PROTOBUF_BINARIES=ON
@@ -63,7 +62,6 @@ modules:
   - name: libplacebo
     buildsystem: meson
     config-opts:
-      - -Dlibdir=lib
       - -Dvulkan=enabled
       - -Dshaderc=enabled
     cleanup:
@@ -149,7 +147,6 @@ modules:
   - name: hidapi
     buildsystem: cmake-ninja
     config-opts:
-      - -DCMAKE_INSTALL_LIBDIR=lib
       - -DHIDAPI_WITH_LIBUSB=FALSE
     sources:
       - type: git
@@ -171,8 +168,6 @@ modules:
 
   - name: json-c
     buildsystem: cmake-ninja
-    config-opts:
-      - -DCMAKE_INSTALL_LIBDIR=lib
     sources:
       - type: git
         url: https://github.com/json-c/json-c.git
@@ -181,8 +176,6 @@ modules:
 
   - name: miniupnpc
     buildsystem: cmake-ninja
-    config-opts:
-      - -DCMAKE_INSTALL_LIBDIR=lib
     subdir: miniupnpc
     sources:
       - type: git
@@ -193,8 +186,6 @@ modules:
   - name: pylux
     buildsystem: cmake-ninja
     builddir: true
-    config-opts:
-      - -DCMAKE_INSTALL_LIBDIR=lib
     sources:
       - type: git
         url: https://github.com/ForWard-Technologies-LLC/Pylux.git
