@@ -1,9 +1,9 @@
 app-id: io.github.ForWard_Technologies_LLC.Pylux
 runtime: org.kde.Platform
-runtime-version: '6.9'
+runtime-version: '6.10'
 sdk: org.kde.Sdk
 base: io.qt.qtwebengine.BaseApp
-base-version: '6.9'
+base-version: '6.10'
 command: chiaki
 rename-icon: chiaking
 finish-args:
@@ -153,6 +153,8 @@ modules:
 
   - name: json-c
     buildsystem: cmake-ninja
+    config-opts:
+      - -DBUILD_APPS=OFF
     sources:
       - type: git
         url: https://github.com/json-c/json-c.git
@@ -171,10 +173,12 @@ modules:
   - name: pylux
     buildsystem: cmake-ninja
     builddir: true
+    config-opts:
+      - -DCHIAKI_ENABLE_TESTS=OFF
     sources:
       - type: git
         url: https://github.com/ForWard-Technologies-LLC/Pylux.git
-        commit: 27ae0753e6d95e9f873f6c7c8608ab703aa6de22
+        commit: 072ebfadceb2bdf24eb262f3f9fa3969259f69ae
     post-install:
       - install -Dm755 ../scripts/psn-account-id.py /app/bin/psn-account-id
       - install -Dm755 ../scripts/vulkan-gamescope-layers/VkLayer_FROG_gamescope_wsi.x86_64.json
