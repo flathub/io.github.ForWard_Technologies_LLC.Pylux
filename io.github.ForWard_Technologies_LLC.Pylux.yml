@@ -190,36 +190,6 @@ modules:
         tag: miniupnpc_2_3_0
         commit: f39e4997591a98e7ee6711eabc8b50feeef1bd67
 
-  - name: SDL3
-    buildsystem: cmake-ninja
-    config-opts:
-      - -DSDL_TESTS=OFF
-      - -DSDL_EXAMPLES=OFF
-      - -DCMAKE_INSTALL_LIBDIR=lib
-    sources:
-      - type: git
-        url: https://github.com/libsdl-org/SDL.git
-        tag: release-3.4.0
-        commit: a962f40bbba175e9716557a25d5d7965f134a3d3
-
-  - name: sdl2-compat
-    sources:
-      - type: git
-        url: https://github.com/libsdl-org/sdl2-compat
-        tag: release-2.32.64
-        commit: 3e1eaa5920e0426b8131870a9259f23e75d429d9
-    buildsystem: cmake-ninja
-    config-opts:
-      - -DSDL2COMPAT_TESTS=OFF
-      - -DCMAKE_INSTALL_LIBDIR=lib
-    post-install:
-      - mv /app/lib/pkgconfig/sdl2-compat.pc /app/lib/pkgconfig/sdl2.pc
-
-  - name: vulkanso
-    buildsystem: simple
-    build-commands:
-      - ln -s /usr/lib/$(uname -m)-linux-gnu/libvulkan.so.1 /app/lib/libvulkan.so
-
   - name: pylux
     buildsystem: cmake-ninja
     builddir: true
@@ -228,7 +198,7 @@ modules:
     sources:
       - type: git
         url: https://github.com/ForWard-Technologies-LLC/Pylux.git
-        commit: 4390eb61e4d65e770e94164beb106d5f42c16a14
+        commit: a956aa9e523331fc0de84f6f276fad4f1bcf3a6f
     post-install:
       - install -Dm755 ../scripts/psn-account-id.py /app/bin/psn-account-id
       - install -Dm755 ../scripts/vulkan-gamescope-layers/VkLayer_FROG_gamescope_wsi.x86_64.json
