@@ -19,11 +19,6 @@ finish-args:
   - --env=DBUS_FATAL_WARNINGS=0
   - --env=QML_DISABLE_DISK_CACHE=1
   - --env=SDL_AUDIODRIVER=pipewire
-  - --talk-name=org.freedesktop.ScreenSaver
-  # TEMP: re-enabled in Phase 4 with a dedicated flatpak-builder-lint
-  # exception PR for login1 (graceful Inhibit + PrepareForSleep handling
-  # for streaming sessions on Steam Deck and desktop). Commented out only
-  # so CI lint passes during initial PR test builds.
   # - --system-talk-name=org.freedesktop.login1
   - --filesystem=xdg-run/pipewire-0
   - --filesystem=xdg-run/gamescope-0
@@ -179,7 +174,7 @@ modules:
     sources:
       - type: git
         url: https://github.com/ForWard-Technologies-LLC/Pylux.git
-        commit: a956aa9e523331fc0de84f6f276fad4f1bcf3a6f
+        commit: 27ae0753e6d95e9f873f6c7c8608ab703aa6de22
     post-install:
       - install -Dm755 ../scripts/psn-account-id.py /app/bin/psn-account-id
       - install -Dm755 ../scripts/vulkan-gamescope-layers/VkLayer_FROG_gamescope_wsi.x86_64.json
