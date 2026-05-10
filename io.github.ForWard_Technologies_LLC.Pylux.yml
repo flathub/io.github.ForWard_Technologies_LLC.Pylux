@@ -19,7 +19,7 @@ finish-args:
   - --env=DBUS_FATAL_WARNINGS=0
   - --env=QML_DISABLE_DISK_CACHE=1
   - --env=SDL_AUDIODRIVER=pipewire
-  # - --system-talk-name=org.freedesktop.login1
+  - --system-talk-name=org.freedesktop.login1
   - --filesystem=xdg-run/pipewire-0
   - --filesystem=xdg-run/gamescope-0
   - --filesystem=xdg-download
