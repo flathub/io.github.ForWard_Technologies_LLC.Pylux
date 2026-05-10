@@ -58,31 +58,6 @@ modules:
         tag: v7.360.1
         commit: cee9b076f2c63104ccfd497fa79c39a867293ec4
 
-  - name: ffmpeg
-    cleanup:
-      - /bin/ffmpeg
-      - /lib/*.so
-      - /include
-      - /lib/pkgconfig
-      - /share/ffmpeg/examples
-      - /share/ffmpeg
-    config-opts:
-      - --disable-all
-      - --enable-libdrm
-      - --enable-avcodec
-      - --enable-vulkan
-      - --enable-decoder=h264
-      - --enable-decoder=hevc
-      - --enable-hwaccel=h264_vaapi
-      - --enable-hwaccel=hevc_vaapi
-      - --enable-hwaccel=h264_vulkan
-      - --enable-hwaccel=hevc_vulkan
-    sources:
-      - type: archive
-        url: https://ffmpeg.org/releases/ffmpeg-7.1.tar.xz
-        sha256: 40973d44970dbc83ef302b0609f2e74982be2d85916dd2ee7472d30678a7abe6
-      - type: patch
-        path: 0001-vulkan-ignore-frames-without-hw-context.patch
 
   - name: python3-google
     buildsystem: simple
