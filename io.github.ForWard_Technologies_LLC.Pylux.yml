@@ -15,7 +15,6 @@ finish-args:
   - --allow=bluetooth
   - --socket=pulseaudio
   - --env=QTWEBENGINEPROCESS_PATH=/app/bin/QtWebEngineProcess
-  - --env=LD_LIBRARY_PATH=/app/lib:/usr/lib/extensions/vulkan/gamescope/lib
   - --env=DBUS_FATAL_WARNINGS=0
   - --env=QML_DISABLE_DISK_CACHE=1
   - --env=SDL_AUDIODRIVER=pipewire
@@ -24,6 +23,12 @@ finish-args:
   - --filesystem=xdg-run/gamescope-0
   - --filesystem=xdg-download
   - --filesystem=~/.steam/steam
+
+cleanup:
+  - /include
+  - /lib/cmake
+  - /lib/pkgconfig
+  - /lib/*.la
 
 cleanup-commands:
   - /app/cleanup-BaseApp.sh
@@ -35,10 +40,6 @@ modules:
       - -Dprotobuf_BUILD_TESTS=OFF
       - -Dprotobuf_BUILD_SHARED_LIBS=ON
       - -Dprotobuf_BUILD_EXAMPLES=OFF
-    cleanup:
-      - /include
-      - /lib/cmake
-      - /lib/pkgconfig
     sources:
       - type: archive
         url: https://github.com/protocolbuffers/protobuf/releases/download/v21.12/protobuf-cpp-3.21.12.tar.gz
@@ -49,9 +50,6 @@ modules:
     config-opts:
       - -Dvulkan=enabled
       - -Dshaderc=enabled
-    cleanup:
-      - /include
-      - /lib/pkgconfig
     sources:
       - type: git
         url: https://github.com/haasn/libplacebo
@@ -113,10 +111,6 @@ modules:
         url: https://github.com/libusb/hidapi.git
         tag: hidapi-0.15.0
         commit: d6b2a974608dec3b76fb1e36c189f22b9cf3650c
-    cleanup:
-      - /lib/*.la
-      - /lib/pkgconfig
-      - /include
 
   - name: speexDSP
     buildsystem: autotools
