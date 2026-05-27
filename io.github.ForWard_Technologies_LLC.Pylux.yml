@@ -125,4 +125,4 @@ modules:
     sources:
       - type: git
         url: https://github.com/ForWard-Technologies-LLC/Pylux.git
-        commit: 4c516cfd17a4fd05675485b3c12146e831f123c4
+        commit: 035438cd52d540801b8b361033cf9d55b6138b8d
