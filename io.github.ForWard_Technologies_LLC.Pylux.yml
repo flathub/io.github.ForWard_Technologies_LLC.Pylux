@@ -23,6 +23,7 @@ finish-args:
   - --filesystem=xdg-run/gamescope-0
   - --filesystem=xdg-download
   - --filesystem=~/.steam/steam
+  - --filesystem=~/.var/app/com.valvesoftware.Steam/data/Steam
 
 cleanup:
   - /include
@@ -125,4 +126,4 @@ modules:
     sources:
       - type: git
         url: https://github.com/ForWard-Technologies-LLC/Pylux.git
-        commit: 072ebfadceb2bdf24eb262f3f9fa3969259f69ae
+        commit: 49800dd726c179847534c25dfa7889a54920df78
